@@ -31,6 +31,9 @@ public class LoginFleetManagementTool {
 	
 	WebDriver driver;
 	
+	String afterLoginMessage = "Dashboard";
+	String errorMessage = "Invalid user name or password.";
+	
 	@Before
 	public void beforeMethod() {
 		WebDriverManager.chromedriver().setup();
@@ -42,7 +45,7 @@ public class LoginFleetManagementTool {
 	}
 	
 	@Test
-	public void test1() {
+	public void loginWithValidCredentials() {
 		driver.findElement(By.id("prependedInput")).sendKeys("storemanager52");
 		
 		driver.findElement(By.id("prependedInput2")).sendKeys("UserUser123");
@@ -51,13 +54,13 @@ public class LoginFleetManagementTool {
 		
 		String title = driver.getTitle();
 		
-		if(title.equals("Dashboard")) {
+		if(title.equals(afterLoginMessage)) {
 			System.out.println("User is on the homepage, test is successful");
 		}
 	}
 	
 	@Test
-	public void test2() throws InterruptedException {
+	public void loginWithInvalidCredentials() throws InterruptedException {
 		driver.findElement(By.id("prependedInput")).sendKeys("wrongusername");
 		
 		driver.findElement(By.id("prependedInput2")).sendKeys("wrongpassword");
@@ -66,14 +69,13 @@ public class LoginFleetManagementTool {
 		
 		Thread.sleep(3000);
 		
+//		
 		String error = driver.findElement(By.xpath("//*[@id=\"login-form\"]/fieldset/div[1]/div")).getText();
 		
-//		System.out.println(error);
-		
-		if(error.equals("Invalid user name or password.")) {
+//		also can use .contains method
+		if(error.equals(errorMessage)) {
 			System.out.println("Login failed as expected, and showed expected error message, test is successful");
 		}
-		
 	}
 	
 	@After
@@ -81,6 +83,4 @@ public class LoginFleetManagementTool {
 		Thread.sleep(3000);
 		driver.close();
 	}
-	
-
 }
