@@ -88,6 +88,4 @@ public class EbaySearch2 {
 			System.out.println("Homepage search box is blank.");
 		}
 	}
-
-
 }
